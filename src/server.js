@@ -88,28 +88,7 @@ app.post('/incoming_call', function(req, res) {
     		trim      : 'do-not-trim'
   	   });*/
           twiml.say('about to enter the change');
-          var options = {
-            url: 'https://siv.voiceprintportal.com/sivservice/api/users',
-            headers: {
-              'VsitDeveloperId' : VOICEIT_DEV_ID,
-              'VsitEmail'       : caller.email,
-              'VsitFirstName'   : 'First1'+caller.number,
-	      'VsitLastName'    : 'Last1'+caller.number,
-              'VsitPassword'    : caller.password,
-              'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
-            }  
-          };
-
-          request.post(options, function (error, response,  body) {
-            if (!error && response.statusCode == 200) {
-              var voiceIt = JSON.parse(body);
-              console.log(voiceIt);
-            } else {
-              console.log(response.statusCode);
-              console.log(body);
-            }
-          });
-   
+            
           twiml.say(
             'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
             'you will now be taken through the enrollment process.'
@@ -159,29 +138,30 @@ app.post('/recordName', function(req,res) {
 	var caller       = callerCredentials(req.body);
         var recordingURL = req.body.RecordingUrl + '.wav';
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
-        var options = {
+	 var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : 'First1'+caller.number,
+              'VsitFirstName'   : recordingURL,
 	      'VsitLastName'    : 'Last1'+caller.number,
               'VsitPassword'    : caller.password,
-              'VsitPhone1'      : recordingURL              
-            }
+              'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
+            }  
           };
 
-          request.put(options, function (error, response,  body) {
+          request.post(options, function (error, response,  body) {
             if (!error && response.statusCode == 200) {
               var voiceIt = JSON.parse(body);
-	      console.log("NAME WALA CHANGE SUCCESS");
               console.log(voiceIt);
             } else {
-	      console.log("NAME WALA CHANGE FATT GAYA");
               console.log(response.statusCode);
               console.log(body);
             }
-          });
+          });	
+	
+	twiml.redirect({ digits: '1' }, '/enroll');
+
 	res.send(twiml.toString());
 });
 // Enrollments
