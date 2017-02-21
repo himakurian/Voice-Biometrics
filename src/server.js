@@ -100,7 +100,6 @@ app.post('/incoming_call', function(req, res) {
     		trim      : 'do-not-trim'
   	   });
           // Then we'll want to send them immediately to enrollment.
-          console.log("BACK TO GET NAME");
           twiml.redirect({ digits: '1' }, '/enroll');
 
           res.send(twiml.toString());
