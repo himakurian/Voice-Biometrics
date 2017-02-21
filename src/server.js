@@ -93,10 +93,9 @@ app.post('/incoming_call', function(req, res) {
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : 'First'+caller.number,
-	      'VsitLastName'    : 'First1'+caller.number,
+              'VsitFirstName'   : 'First1'+caller.number,
+	      'VsitLastName'    : 'Last1'+caller.number,
               'VsitPassword'    : caller.password,
-              'VsitPhone1'      : caller.number,
               'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
             }  
           };
