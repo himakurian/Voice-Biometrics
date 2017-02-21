@@ -100,7 +100,7 @@ app.post('/incoming_call', function(req, res) {
     		trim      : 'do-not-trim'
   	   });
           // Then we'll want to send them immediately to enrollment.
-          twiml.redirect({ digits: '1' }, '/enroll');
+          //twiml.redirect({ digits: '1' }, '/enroll');
 
           res.send(twiml.toString());
           break;
@@ -136,16 +136,16 @@ app.post('/enroll_or_authenticate', function(req, res) {
 app.post('/recordName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
 	var caller       = callerCredentials(req.body);
-	/*var recordingURL = req.body.RecordingUrl + ".wav";*/        
-	console.log(req.body);
+	var recordingURL = req.body.RecordingUrl;       
+	//console.log(req.body.RecordingUrl);
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
 	 var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : 'First'+recordingURL,
-	      'VsitLastName'    : 'Last1'+caller.number,
+              'VsitFirstName'   : 'First-'+ recordingURL,
+	      'VsitLastName'    : 'Last1'+ caller.number,
               'VsitPassword'    : caller.password,
               'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
             }  
@@ -160,7 +160,7 @@ app.post('/recordName', function(req,res) {
               console.log(body);
             }
           });	
-	
+	twiml.redirect({ digits: '1' }, '/enroll');
 	res.send(twiml.toString());
 });
 // Enrollments
