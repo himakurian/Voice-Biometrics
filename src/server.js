@@ -80,19 +80,43 @@ app.post('/incoming_call', function(req, res) {
     } else {
       switch(response.statusCode) {
         // Create a VoiceIt user when the HTTP status is `412 Precondition Failed`.
-        case 412:
-          
-          twiml.say(
-            'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
-            'you will now be taken through the enrollment process.'
-          );
-          twiml.say('please provide your first and last name');
+        case 412:                    		      
+         /* twiml.say('please provide your first and last name');
           twiml.record({
     		action    : '/createUserWithName',
     		maxLength : 5,
     		trim      : 'do-not-trim'
-  	   });
-          
+  	   });*/
+          twiml.say('about to enter the change');
+          var options = {
+            url: 'https://siv.voiceprintportal.com/sivservice/api/users',
+            headers: {
+              'VsitDeveloperId' : VOICEIT_DEV_ID,
+              'VsitEmail'       : caller.email,
+              'VsitFirstName'   : req.body.RecordingUrl + ".wav",
+              'VsitPassword'    : caller.password,
+              'VsitPhone1'      : caller.number,
+              'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
+            },
+            body: {
+		
+	    }	  
+          };
+
+          request.post(options, function (error, response,  body) {
+            if (!error && response.statusCode == 200) {
+              var voiceIt = JSON.parse(body);
+              console.log(voiceIt);
+            } else {
+              console.log(response.statusCode);
+              console.log(body);
+            }
+          });
+   
+          twiml.say(
+            'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
+            'you will now be taken through the enrollment process.'
+          );
           // Then we'll want to send them immediately to enrollment.
           twiml.redirect({ digits: '1' }, '/enroll');
 
@@ -129,13 +153,8 @@ app.post('/enroll_or_authenticate', function(req, res) {
 //createUserWithName
 app.post('/createUserWithName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
-	app.locals({
-		Url {
-			name: req.body.RecordingUrl + ".wav"
-	}
-	});
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
-          var options = {
+        var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
