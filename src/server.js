@@ -204,9 +204,7 @@ app.post('/enroll', function(req, res) {
 });
 
 app.post('/authenticate', function(req, res) {
-  var twiml = new twilio.TwimlResponse();
-
-  twiml.play(Url.name);
+  var twiml = new twilio.TwimlResponse();  
   twiml.say('Please say the following phrase to authenticate. Once complete press the pound key.');
   twiml.pause(1);
   twiml.say('Never forget tomorrow is a new day.');
