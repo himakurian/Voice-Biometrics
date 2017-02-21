@@ -155,7 +155,7 @@ app.post('/enroll_or_authenticate', function(req, res) {
   res.send(twiml.toString());
 });
 //updateUserWithName
-app.put('/recordName', function(req,res) {
+app.post('/recordName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
 	var caller       = callerCredentials(req.body);
         var recordingURL = req.body.RecordingUrl + '.wav';
