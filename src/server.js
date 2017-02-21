@@ -151,7 +151,7 @@ app.post('/enroll_or_authenticate', function(req, res) {
   res.send(twiml.toString());
 });
 //createUserWithName
-app.post('/createUserWithName', function(req,res) {
+/*app.post('/createUserWithName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
         var options = {
@@ -176,7 +176,7 @@ app.post('/createUserWithName', function(req,res) {
             }
           });
 	res.send(twiml.toString());
-});
+});*/
 // Enrollments
 // -----------
 app.post('/enroll', function(req, res) {
