@@ -137,14 +137,14 @@ app.post('/recordName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
 	var caller       = callerCredentials(req.body);
 	var recordingURL = req.body.RecordingUrl;       
-	//console.log(req.body.RecordingUrl);
+	console.log(req.body.RecordingUrl);
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
 	 var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : 'First-'+ recordingURL,
+              'VsitFirstName'   : req.body.RecordingUrl,
 	      'VsitLastName'    : 'Last1'+ caller.number,
               'VsitPassword'    : caller.password,
               'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
