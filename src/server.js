@@ -136,8 +136,8 @@ app.post('/enroll_or_authenticate', function(req, res) {
 app.post('/recordName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
 	var caller       = callerCredentials(req.body);
-	var recordingURL = req.body.RecordingUrl + ".wav";        
-	console.log(recordingURL);
+	/*var recordingURL = req.body.RecordingUrl + ".wav";*/        
+	console.log(req.body);
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
 	 var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
