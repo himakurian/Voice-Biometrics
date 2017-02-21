@@ -93,14 +93,12 @@ app.post('/incoming_call', function(req, res) {
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : req.body.RecordingUrl + ".wav",
+              'VsitFirstName'   : 'First'+caller.number,
+	      'VsitLastName'    : 'First1'+caller.number,
               'VsitPassword'    : caller.password,
               'VsitPhone1'      : caller.number,
               'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
-            },
-            body: {
-		
-	    }	  
+            }  
           };
 
           request.post(options, function (error, response,  body) {
@@ -117,6 +115,12 @@ app.post('/incoming_call', function(req, res) {
             'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
             'you will now be taken through the enrollment process.'
           );
+          twiml.say('please provide your first and last name');
+          twiml.record({
+    		action    : '/recordName',
+    		maxLength : 5,
+    		trim      : 'do-not-trim'
+  	   });
           // Then we'll want to send them immediately to enrollment.
           twiml.redirect({ digits: '1' }, '/enroll');
 
@@ -150,33 +154,37 @@ app.post('/enroll_or_authenticate', function(req, res) {
 
   res.send(twiml.toString());
 });
-//createUserWithName
-/*app.post('/createUserWithName', function(req,res) {
+//updateUserWithName
+app.put('/recordName', function(req,res) {
 	var twiml       = new twilio.TwimlResponse();
+	var caller       = callerCredentials(req.body);
+        var recordingURL = req.body.RecordingUrl + '.wav';
 	// Prepare options for the VoiceIt `POST /sivservice/api/users` API request.
         var options = {
             url: 'https://siv.voiceprintportal.com/sivservice/api/users',
             headers: {
               'VsitDeveloperId' : VOICEIT_DEV_ID,
               'VsitEmail'       : caller.email,
-              'VsitFirstName'   : req.body.RecordingUrl + ".wav",
+              'VsitFirstName'   : 'First1'+caller.number,
+	      'VsitLastName'    : 'Last1'+caller.number,
               'VsitPassword'    : caller.password,
-              'VsitPhone1'      : caller.number,
-              'PlatformID'      : '23'//Please IGNORE This Parameter Used Internally to gather Platform Analytics
+              'VsitPhone1'      : recordingURL              
             }
           };
 
-          request.post(options, function (error, response,  body) {
+          request.put(options, function (error, response,  body) {
             if (!error && response.statusCode == 200) {
               var voiceIt = JSON.parse(body);
+	      console.log("NAME WALA CHANGE SUCCESS");
               console.log(voiceIt);
             } else {
+	      console.log("NAME WALA CHANGE FATT GAYA");
               console.log(response.statusCode);
               console.log(body);
             }
           });
 	res.send(twiml.toString());
-});*/
+});
 // Enrollments
 // -----------
 app.post('/enroll', function(req, res) {
