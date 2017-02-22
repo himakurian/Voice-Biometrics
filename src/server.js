@@ -61,7 +61,7 @@ app.post('/incoming_call', function(req, res) {
 
       // Greet the caller when their account profile is recognized by the VoiceIt API.
       twiml.say(
-        'You have reached Intuits HR services . Your phone number has been recognized in our system.'
+        'You have reached Intuits QuickBooks . Your phone number has been recognized in our system.'
       );
       // Let's provide the caller with an opportunity to enroll by typing `1` on
       // their phone's keypad.
@@ -106,7 +106,7 @@ app.post('/incoming_call', function(req, res) {
           });
 
           twiml.say(
-            'Welcome to HR services. Our system identifies you as a new user, ' +
+            'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
             'you will now be taken through the enrollment process.'
           );
           // Then we'll want to send them immediately to enrollment.
@@ -239,7 +239,7 @@ app.post('/options', function(req, res) {
     numDigits : 1,
     timeout   : 3
    }, function () {
-       this.say('Please press 1 for Pcard related queries. Press 2 for IT services');
+       this.say('Please press 1 for Quickbooks Online. Press 2 for Quickbooks Desktop');
     });
   twiml.redirect('/subOptions?digits=TIMEOUT');
 });
