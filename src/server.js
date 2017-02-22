@@ -157,7 +157,7 @@ app.post('/enroll', function(req, res) {
 
   twiml.say('Please say the following phrase to enroll.');
   twiml.pause(1);
-  twiml.say('My voice is my secured password');
+  twiml.say('Never forget tomorrow is a new day');
   twiml.record({
     action    : '/process_enrollment?enrollCount=' + enrollCount,
     maxLength : 5,
@@ -172,7 +172,7 @@ app.post('/authenticate', function(req, res) {
 
   twiml.say('Please say the following phrase to authenticate. Once complete press the pound key.');
   twiml.pause(1);
-  twiml.say('My voice is my secured password');
+  twiml.say('Never forget tomorrow is a new day');
   // We neeed to record a `.wav` file. This will be sent to VoiceIt for authentication.
   twiml.record({
     action    : '/process_authentication',
