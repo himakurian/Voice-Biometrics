@@ -61,7 +61,7 @@ app.post('/incoming_call', function(req, res) {
 
       // Greet the caller when their account profile is recognized by the VoiceIt API.
       twiml.say(
-        'You have reached Intuits QuickBooks . Your phone number has been recognized in our system.'
+        'You have reached Intuits HR services . Your phone number has been recognized in our system.'
       );
       // Let's provide the caller with an opportunity to enroll by typing `1` on
       // their phone's keypad.
@@ -106,7 +106,7 @@ app.post('/incoming_call', function(req, res) {
           });
 
           twiml.say(
-            'Welcome to Intuitis QuickBooks. Our system identifies you as a new user, ' +
+            'Welcome to Intuitis HR Services. Our system identifies you as a new user, ' +
             'you will now be taken through the enrollment process.'
           );
           // Then we'll want to send them immediately to enrollment.
@@ -245,7 +245,7 @@ app.post('/options', function(req, res) {
     numDigits : 1,
     timeout   : 3
    }, function () {
-       this.say('Please press 1 for Quickbooks Online. Press 2 for Quickbooks Desktop');
+       this.say('Please press 1 for P Card related queries. Press 2 for IT services');
     });
   twiml.redirect('/subOptions?digits=TIMEOUT');
   res.send(twiml.toString());
@@ -255,7 +255,7 @@ app.post('/subOptions', function(req,res) {
 	var twiml = new twilio.TwimlResponse();
 	
 	var toneUrl = 'http://kamazoy.uk/wp-content/uploads/2013/03/012.wav';
-	twiml.say('To purchase a new QuickBook press 1. For support press 2.');
+	twiml.say('To check your card balance press 1. For support press 2.');
 	twiml.pause(2);
 	twiml.say('A customer care executive will assist you shortly, please wait while we transfer your call. This call will be recorded and monitored for quality and training purposes.');
 	twiml.play(toneUrl);
