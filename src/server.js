@@ -125,11 +125,17 @@ app.post('/incoming_call', function(req, res) {
 // ------------------------------------
 // We need a route to help determine what the caller intends to do.
 app.post('/enroll_or_authenticate', function(req, res) {
-  var digits = req.body.digits;
+  var digits = req.body.Digits;
   var twiml  = new twilio.TwimlResponse();
-
+  
   // When the caller asked to enroll by pressing `1`, provide friendly
   // instructions, otherwise, we always assume their intent is to authenticate.
+  //twiml.say('You are in enroll or auth stub and we will continue the process until the code works fine');
+  //var digits = numIn.replace(/[^0-9]/g, '');
+  
+  //console.log(JSON.stringify(req.body.Digits));
+  //console.log(JSON.stringify(req.body.Digits).replace(/[^0-9]/g, ''));	
+  //console.log(digits);
   if (digits == 1) {
     twiml.say(
       'You have chosen to create a new account with Intuits voice recognition system. You will be ' +
@@ -151,7 +157,7 @@ app.post('/enroll', function(req, res) {
 
   twiml.say('Please say the following phrase to enroll.');
   twiml.pause(1);
-  twiml.say('Never forget tomorrow is a new day.');
+  twiml.say('My voice is my secured password');
   twiml.record({
     action    : '/process_enrollment?enrollCount=' + enrollCount,
     maxLength : 5,
@@ -166,7 +172,7 @@ app.post('/authenticate', function(req, res) {
 
   twiml.say('Please say the following phrase to authenticate. Once complete press the pound key.');
   twiml.pause(1);
-  twiml.say('Never forget tomorrow is a new day.');
+  twiml.say('My voice is my secured password');
   // We neeed to record a `.wav` file. This will be sent to VoiceIt for authentication.
   twiml.record({
     action    : '/process_authentication',
@@ -242,7 +248,21 @@ app.post('/options', function(req, res) {
        this.say('Please press 1 for Quickbooks Online. Press 2 for Quickbooks Desktop');
     });
   twiml.redirect('/subOptions?digits=TIMEOUT');
+  res.send(twiml.toString());
 });
+
+app.post('/subOptions', function(req,res) {
+	var twiml = new twilio.TwimlResponse();
+	
+	var toneUrl = 'http://kamazoy.uk/wp-content/uploads/2013/03/012.wav';
+	twiml.say('To purchase a new QuickBook press 1. For support press 2.');
+	twiml.pause(2);
+	twiml.say('A customer care executive will assist you shortly, please wait while we transfer your call. This call will be recorded and monitored for quality and training purposes.');
+	twiml.play(toneUrl);
+	res.send(twiml.toString());
+});
+
+//login methods ends here
 
 app.post('/process_authentication', function(req, res) {
   var caller       = callerCredentials(req.body);
